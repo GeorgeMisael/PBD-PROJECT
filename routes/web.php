@@ -18,6 +18,9 @@ Route::get('/role/{id}', [Controllers\RoleController::class, 'destroy'])->name('
 
 // User
 Route::get('/user', [Controllers\UserController::class, 'index'])->name('user');
+Route::get('/user/create', [Controllers\UserController::class,'create'])->name('user.create');
+Route::post('/user/store', [Controllers\UserController::class,'store'])->name('user.store');
+Route::get('/user/{id}', [Controllers\UserController::class,'destroy'])->name('user.destroy');
 
 // Vendor
 Route::get('/vendor', [Controllers\VendorController::class, 'index'])->name('vendor');
