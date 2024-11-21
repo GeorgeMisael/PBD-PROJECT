@@ -1,9 +1,9 @@
-<x-app-layout title="Dashboard">
+<x-app-layout title="Pengguna">
   <x-slot:breadcrumb>
-    Dashboard
+    Pengguna
   </x-slot:breadcrumb>
   <x-slot:heading>
-    Data Dashboard
+    Data Pengguna
   </x-slot:heading>
 
   <p>Disini nanti isinya keren bgt</p>

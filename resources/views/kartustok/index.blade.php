@@ -1,9 +1,10 @@
-<x-app-layout title="Dashboard">
+<x-app-layout title="Kartu Stok">
   <x-slot:breadcrumb>
-    Dashboard
+    Kartu Stok
   </x-slot:breadcrumb>
+  
   <x-slot:heading>
-    Data Dashboard
+    Data Kartu Stok
   </x-slot:heading>
 
   <p>Disini nanti isinya keren bgt</p>

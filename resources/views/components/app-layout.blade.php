@@ -54,7 +54,7 @@
       <h1>{{ $heading }}</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="index.html">{{ $breadcrumb }}</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
@@ -65,9 +65,7 @@
 
         <!-- Left side columns -->
         <div class="col-lg-12">
-          <div class="row">
             {{ $slot }}
-          </div>
         </div><!-- End Left side columns -->
       </div>
     </section>
@@ -92,6 +90,12 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('NiceAdmin') }}/assets/js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const dataTable = new simpleDatatables.DataTable("#myTable");
+    });
+  </script>
 
 </body>
 

@@ -3,7 +3,7 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link " href="index.html">
+      <a class="nav-link {{ Route::is('dashboard') ? '' : 'collapsed' }}" href="{{ route('dashboard') }}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -11,57 +11,63 @@
 
     <li class="nav-heading">Pengguna</li>
     
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-contact.html">
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('role') ? '' : 'collapsed' }}" href="{{ route('role') }}">
         <i class="bi bi-envelope"></i>
         <span>Role</span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.html">
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('user') ? '' : 'collapsed' }}" href="{{ route('user') }}">
         <i class="bi bi-person"></i>
         <span>Pengguna</span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="{{ route('vendor') }}">
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('vendor') ? '' : 'collapsed' }}" href="{{ route('vendor') }}">
         <i class="bi bi-file-earmark"></i>
         <span>Vendor </span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-faq.html">
-        <i class="bi bi-question-circle"></i>
-        <span>Manajemen Barang</span>
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('satuan') ? '' : 'collapsed' }}" href="{{ route('satuan') }}">
+        <i class="bi bi-person"></i>
+        <span>Satuan</span>
       </a>
     </li>
 
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('barang') ? '' : 'collapsed' }}" href="{{ route('barang') }}">
+        <i class="bi bi-question-circle"></i>
+        <span>Barang</span>
+      </a>
+    </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-register.html">
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('kartustok') ? '' : 'collapsed' }}" href="{{ route('kartustok') }}">
         <i class="bi bi-card-list"></i>
         <span>Kartu Stok</span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-login.html">
+    <li class="nav-item ">
+      <a class="nav-link {{ Route::is('pengadaan') ? '' : 'collapsed' }}" href="{{ route('pengadaan') }}">
         <i class="bi bi-box-arrow-in-right"></i>
-        <span>Pengadaan Barang</span>
+        <span>Pengadaan</span>
       </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item ">
       <a class="nav-link collapsed" href="pages-error-404.html">
         <i class="bi bi-dash-circle"></i>
         <span>Penjualan</span>
       </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item ">
       <a class="nav-link collapsed" href="pages-blank.html">
         <i class="bi bi-file-earmark"></i>
         <span>Retur </span>
