@@ -21,9 +21,12 @@ Route::get('/user', [Controllers\UserController::class, 'index'])->name('user');
 Route::get('/user/create', [Controllers\UserController::class,'create'])->name('user.create');
 Route::post('/user/store', [Controllers\UserController::class,'store'])->name('user.store');
 Route::get('/user/{id}', [Controllers\UserController::class,'destroy'])->name('user.destroy');
+Route::get('/user/edit/{id}', [Controllers\UserController::class, 'edit'])->name('user.edit');
+Route::post('/user/update/{id}', [Controllers\UserController::class, 'update'])->name('user.update');
 
 // Vendor
 Route::get('/vendor', [Controllers\VendorController::class, 'index'])->name('vendor');
+Route::get('/vendor/create', [Controllers\VendorController::class,'create'])->name('vendor.create');
 
 // Satuan
 Route::get('/satuan', [Controllers\SatuanController::class, 'index'])->name('satuan');

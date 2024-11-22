@@ -18,12 +18,12 @@
         </div>
       @endif
   
-    @if(session('success'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ session('success') }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    @endif
+      @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
   
       <!-- Table with hoverable rows -->
       <table id="myTable" class="table table-hover">
@@ -42,7 +42,7 @@
             <td>{{ $user->username }}</td>
             <td>{{ $user->nama_role }}</td>
             <td>
-              <a href="" class="btn btn-outline-warning">Edit</a>
+              <a href="{{ route('user.edit', $user->iduser) }}" class="btn btn-outline-warning">Edit</a>
               <a href="{{ route('user.destroy', $user->iduser) }}" class="btn btn-outline-danger">Hapus</a>
             </td>
           </tr>

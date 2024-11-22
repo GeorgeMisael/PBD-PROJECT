@@ -60,4 +60,35 @@ class UserController extends Controller
         }
     }
 
+    public function edit($id){
+    
+        // Mengambil data user berdasarkan iduser
+        $users = DB::table('user')->where('iduser', $id)->first();
+    
+        // Ambil data role untuk dropdown
+        $roles = DB::table('role')->get();
+    
+        // Kirim data ke view
+        return view('user.edit', compact('users', 'roles'));   
+        
+    }
+
+    public function update(Request $request, $id) {
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
+            'idrole' => 'required|integer|exists:role,idrole', // Pastikan idrole valid
+        ]);
+    
+        // Update data pengguna
+        DB::table('user')
+            ->where('iduser', $id)
+            ->update([
+                'username' => $request->username,
+                'password' => $request->password,
+                'idrole' => $request->idrole,
+            ]);
+    
+        return redirect('/user');
+    }
 }
