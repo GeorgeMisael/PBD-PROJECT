@@ -6,7 +6,9 @@
     Data Vendor
   </x-slot:heading>
 
-  <a href="" class="btn btn-primary">Tambah Data</a>
+  <a href="{{ route('vendor.create') }}" class="btn btn-primary">Tambah Data</a>
+  <a href="{{ route('vendor.inactive.list') }}">Data Nonaktif</a>
+
   
   <div class="card-body">
     <h5 class="card-title">Table Data Role</h5>
@@ -37,23 +39,20 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ( $vendors as $vendor )
-        @if ( $vendor->status == 1 )
+        @foreach ($vendors as $vendor)
         <tr>
-          <th scope="row">{{ $loop->iteration }}</th>
-          <td>{{ $vendor->nama_vendor }}</td>
-          <td>{{ $vendor->badan_hukum }}</td>
-          <td>
-            <span class="badge bg-success">Success</span>
-          </td>
-          <td>
-            <a href="" class="btn btn-outline-warning">Edit</a>
-            <a href="" class="btn btn-outline-danger">Hapus</a>
-          </td>
-          @endif
+            <th scope="row">{{ $loop->iteration }}</th>
+            <td>{{ $vendor->nama_vendor }}</td>
+            <td>{{ $vendor->badan_hukum }}</td>
+            <td>
+                <span class="badge bg-success">Aktif</span>
+            </td>
+            <td>
+                <a href="{{ route('vendor.inactive', $vendor->idvendor) }}" class="btn btn-outline-danger">Non Aktifkan</a>
+            </td>
         </tr>
         @endforeach
-      </tbody>
+    </tbody>    
     </table>
     <!-- End Table with hoverable rows -->
 

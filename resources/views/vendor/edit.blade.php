@@ -24,32 +24,24 @@
     @endif
     
     <!-- Horizontal Form -->
-    <form action="{{ route('user.update', $user->iduser) }}" method="post">
+    <form action="{{ route('vendor.update', $vendors->idvendor) }}" method="post">
       @csrf
       <div class="row mb-3">
-        <label for="username" class="col-sm-2 col-form-label">Nama User</label>
+        <label for="nama_vendor" class="col-sm-2 col-form-label">Nama Vendor</label>
         <div class="col-sm-10">
-          <input type="text" name="username" id="username" value="{{ $user->username }}" class="form-control">
+          <input type="text" name="nama_vendor" id="nama_vendor" value="{{ $vendors->nama_vendor }}" class="form-control">
         </div>
       </div>
       <div class="row mb-3">
-        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <label for="badan_hukum" class="col-sm-2 col-form-label">Badan Hukum</label>
         <div class="col-sm-10">
-          <input type="text" name="password" id="password" value="{{ $user->password }}" class="form-control">
+          <input type="text" name="badan_hukum" id="badan_hukum" value="{{ $vendors->badan_hukum }}" class="form-control">
         </div>
       </div>
-      <!-- Select Role -->
       <div class="row mb-3">
-        <label for="idrole" class="col-sm-2 col-form-label">Role</label>
+        <label for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-10">
-          <select name="idrole" id="idrole" class="form-select">
-            <option value="" selected>Pilih role parent</option>
-            @foreach ($roles as $role)
-              <option value="{{ $role->idrole }}" {{ $user->idrole == $role->idrole ? 'selected' : '' }}>
-                {{ $role->nama_role }}
-              </option>
-            @endforeach
-          </select>
+          <input type="text" name="status" id="status" value="{{ $vendors->status }}" class="form-control">
         </div>
       </div>
       <div class="text-center">

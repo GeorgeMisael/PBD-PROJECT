@@ -10,20 +10,16 @@ class UserController extends Controller
 {
     public function index(){
 
-        $users = DB::table('user')
-        ->join('role', 'user.idrole', '=', 'role.idrole') // Join dengan tabel role
-        ->select('user.*', 'role.nama_role') // Pilih kolom yang dibutuhkan
-        ->get();
+        $users = DB::table('data_user')->get();
+
+        $roles = DB::table('role')->get();
         
         return view('user.index', compact('users'));
     }
 
     public function create(){
 
-        $users = DB::table('user')
-        ->join('role', 'user.idrole', '=', 'role.idrole') // Join dengan tabel role
-        ->select('user.*', 'role.nama_role') // Pilih kolom yang dibutuhkan
-        ->get();
+        $users = DB::table('data_user')->get();
 
         $roles = DB::table('role')->get();
 
@@ -60,19 +56,18 @@ class UserController extends Controller
         }
     }
 
-    public function edit($id){
-    
-        // Mengambil data user berdasarkan iduser
-        $users = DB::table('user')->where('iduser', $id)->first();
+    public function edit($id)
+    {
+        // Ambil satu data user berdasarkan iduser
+        $user = DB::table('data_user')->where('iduser', $id)->first();
     
         // Ambil data role untuk dropdown
         $roles = DB::table('role')->get();
     
         // Kirim data ke view
-        return view('user.edit', compact('users', 'roles'));   
-        
+        return view('user.edit', compact('user', 'roles'));
     }
-
+    
     public function update(Request $request, $id) {
         $request->validate([
             'username' => 'required|string|max:255',

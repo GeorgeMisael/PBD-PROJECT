@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="row mb-3">
-        <label for="password" class="col-sm-2 col-form-label">Nama Role</label>
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
           <input type="text" name="password" id="password" class="form-control">
         </div>
@@ -55,6 +55,8 @@
         <button type="reset" class="btn btn-secondary">Reset</button>
       </div>
     </form><!-- End Horizontal Form -->
+
+    <a href="{{ route('user') }}" class="btn btn-danger">Kembali</a>
 
   </div>
 

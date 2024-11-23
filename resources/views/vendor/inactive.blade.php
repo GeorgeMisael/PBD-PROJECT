@@ -1,15 +1,13 @@
-<x-app-layout title="Barang">
+<x-app-layout title="Vendor">
   <x-slot:breadcrumb>
-    Barang
+    Vendor
   </x-slot:breadcrumb>
   <x-slot:heading>
-    Data Barang
+    Data Vendor
   </x-slot:heading>
-
-  <a href="{{ route('barang.create') }}" class="btn btn-primary">Tambah Data</a>
   
   <div class="card-body">
-    <h5 class="card-title">Table Data Role</h5>
+    <h5 class="card-title">Table Data Role Tidak Aktif</h5>
     
     @if(session('error'))
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -30,30 +28,32 @@
       <thead>
         <tr>
           <th scope="col">No</th>
-          <th scope="col">Jenis Barang</th>
-          <th scope="col">Nama Barang</th>
-          <th scope="col">Harga</th>
-          <th scope="col">Satuan</th>
+          <th scope="col">Nama Vendor</th>
+          <th scope="col">Badan Hukum</th>
           <th scope="col">Status</th>
           <th scope="col">Aksi</th>
         </tr>
       </thead>
       <tbody>
-        @foreach ( $barangs as $barang )
+        @foreach ($vendors as $vendor)
         <tr>
-          <th scope="row">{{ $loop->iteration }}</th>
-          <td>{{ $barang->jenis }}</td>
-          <td>{{ $barang->nama_barang }}</td>
-          <td>{{ $barang->harga }}</td>
-          <td>{{ $barang->nama_satuan }}</td>
-          <td>{{ $barang->status_barang }}</td>
-          <td>
-            <a href="" class="btn btn-outline-warning">Edit</a>
-            <a href="" class="btn btn-outline-danger">Hapus</a>
+            <th scope="row">{{ $loop->iteration }}</th>
+            <td>{{ $vendor->nama_vendor }}</td>
+            <td>{{ $vendor->badan_hukum }}</td>
+            <td>
+                <span class="badge bg-danger">Non Aktif</span>
+            </td>
+            <td>
+              <a href="{{ route('vendor.edit', $vendor->idvendor) }}" class="btn btn-outline-warning">
+                Edit
+            </a>
+              <a href="{{ route('vendor.active', $vendor->idvendor) }}" class="btn btn-outline-success">
+                  Aktifkan
+              </a>
           </td>
         </tr>
         @endforeach
-      </tbody>
+    </tbody>    
     </table>
     <!-- End Table with hoverable rows -->
 

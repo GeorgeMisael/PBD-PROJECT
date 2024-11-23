@@ -27,12 +27,27 @@ Route::post('/user/update/{id}', [Controllers\UserController::class, 'update'])-
 // Vendor
 Route::get('/vendor', [Controllers\VendorController::class, 'index'])->name('vendor');
 Route::get('/vendor/create', [Controllers\VendorController::class,'create'])->name('vendor.create');
+Route::post('/vendor/store', [Controllers\VendorController::class,'store'])->name('vendor.store');
+Route::get('/vendor/inactive/{id}', [Controllers\VendorController::class,'inactive'])->name('vendor.inactive');
+Route::get('/vendor/inactive', [Controllers\VendorController::class, 'inactiveList'])->name('vendor.inactive.list');
+Route::get('/vendor/inactive/edit/{id}', [Controllers\VendorController::class, 'edit'])->name('vendor.edit');
+Route::post('/vendor/inactive/update/{id}', [Controllers\VendorController::class, 'update'])->name('vendor.update');
+Route::get('/vendor/active/{id}', [Controllers\VendorController::class, 'active'])->name('vendor.active');
 
 // Satuan
 Route::get('/satuan', [Controllers\SatuanController::class, 'index'])->name('satuan');
+Route::get('/satuan/create', [Controllers\SatuanController::class,'create'])->name('satuan.create');
+Route::post('/satuan/store', [Controllers\SatuanController::class,'store'])->name('satuan.store');
+Route::get('/satuan/inactive/{id}', [Controllers\SatuanController::class,'inactive'])->name('satuan.inactive');
+Route::get('/satuan/inactive', [Controllers\SatuanController::class, 'inactiveList'])->name('satuan.inactive.list');
+Route::get('/satuan/active/{id}', [Controllers\SatuanController::class, 'active'])->name('satuan.active');
+Route::get('/satuan/inactive/edit/{id}', [Controllers\SatuanController::class, 'edit'])->name('satuan.edit');
+Route::post('/satuan/inactive/update/{id}', [Controllers\SatuanController::class, 'update'])->name('satuan.update');
 
 // Barang
 Route::get('/barang', [Controllers\BarangController::class, 'index'])->name('barang');
+Route::get('/barang/create', [Controllers\BarangController::class,'create'])->name('barang.create');
+Route::post('/barang/store', [Controllers\BarangController::class,'store'])->name('barang.store');
 
 // Pengadaan
 Route::get('/pengadaan', [Controllers\PengadaanController::class, 'index'])->name('pengadaan');
