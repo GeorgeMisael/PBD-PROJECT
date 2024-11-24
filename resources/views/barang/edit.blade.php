@@ -24,24 +24,24 @@
     @endif
     
     <!-- Horizontal Form -->
-    <form action="{{ route('barang.store') }}" method="post">
+    <form action="{{ route('barang.update', $barang->idbarang) }}" method="post">
       @csrf
       <div class="row mb-3">
         <label for="jenis" class="col-sm-2 col-form-label">Jenis Barang</label>
         <div class="col-sm-10">
-          <input type="text" name="jenis" id="jenis" class="form-control">
+          <input type="text" name="jenis" id="jenis" value="{{ $barang->jenis }}" class="form-control">
         </div>
       </div>
       <div class="row mb-3">
         <label for="nama" class="col-sm-2 col-form-label">Nama Barang</label>
         <div class="col-sm-10">
-          <input type="text" name="nama" id="nama" class="form-control">
+          <input type="text" name="nama" id="nama" value="{{ $barang->nama }}" class="form-control">
         </div>
       </div>
       <div class="row mb-3">
         <label for="harga" class="col-sm-2 col-form-label">Harga Barang</label>
         <div class="col-sm-10">
-          <input type="text" name="harga" id="harga" class="form-control">
+          <input type="text" name="harga" id="harga" value="{{ $barang->harga }}" class="form-control">
         </div>
       </div>
       <div class="row mb-3">
@@ -59,8 +59,13 @@
         <label for="status" class="col-sm-2 col-form-label">Status</label>
         <div class="col-sm-10">
           <select name="status" id="status" class="form-select" aria-label="Pilih role parent">
+            @if ($barang->status == 1)
             <option value="1">Aktif</option>
             <option value="0">Non Aktif</option>
+            @elseif ($barang->status == 0)
+            <option value="0">Non Aktif</option>
+            <option value="1">Aktif</option>
+            @endif
           </select>
         </div>
       </div>
@@ -75,7 +80,8 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-secondary">Reset</button>
       </div>
-    </form><!-- End Horizontal Form -->
+    </form>
+    <!-- End Horizontal Form -->
 
     <a href="{{ route('barang') }}" class="btn btn-danger">Kembali</a>
 

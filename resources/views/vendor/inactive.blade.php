@@ -55,6 +55,7 @@
         @endforeach
     </tbody>    
     </table>
+    <a href="{{ route('vendor') }}" class="btn btn-danger">Kembali</a>
     <!-- End Table with hoverable rows -->
 
   </div>

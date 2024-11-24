@@ -5,9 +5,6 @@
   <x-slot:heading>
     Data Barang
   </x-slot:heading>
-
-  <a href="{{ route('barang.create') }}" class="btn btn-primary">Tambah Data</a>
-  <a href="{{ route('barang.inactivelist') }}" >Data non aktif</a>
   
   <div class="card-body">
     <h5 class="card-title">Table Data Role</h5>
@@ -48,17 +45,16 @@
           <td>{{ $barang->harga }}</td>
           <td>{{ $barang->nama_satuan }}</td>
           <td>
-            <span class="badge bg-success">Aktif</span>
+            <span class="badge bg-danger">Non Aktif</span>
         </td>
           <td>
             <a href="{{ route('barang.edit', $barang->idbarang) }}" class="btn btn-outline-warning">Edit</a>
-            <a href="{{ route('barang.inactive', $barang->idbarang) }}" class="btn btn-outline-danger">Non Aktifkan</a>
+            <a href="{{ route('barang.active', $barang->idbarang) }}" class="btn btn-outline-success">Aktifkan</a>
           </td>
         </tr>
         @endforeach
       </tbody>
     </table>
-    <!-- End Table with hoverable rows -->
-
+    <a href="{{ route('barang') }}" class="btn btn-danger">Kembali</a>
   </div>
 </x-app-layout>

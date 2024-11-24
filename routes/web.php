@@ -48,6 +48,11 @@ Route::post('/satuan/inactive/update/{id}', [Controllers\SatuanController::class
 Route::get('/barang', [Controllers\BarangController::class, 'index'])->name('barang');
 Route::get('/barang/create', [Controllers\BarangController::class,'create'])->name('barang.create');
 Route::post('/barang/store', [Controllers\BarangController::class,'store'])->name('barang.store');
+Route::get('/barang/inactive/{id}', [Controllers\BarangController::class,'inactive'])->name('barang.inactive');
+Route::get('/barang/inactive', [Controllers\BarangController::class,'inactivelist'])->name('barang.inactivelist');
+Route::get('/barang/active/{id}', [Controllers\BarangController::class, 'active'])->name('barang.active');
+Route::get('/barang/inactive/edit/{id}', [Controllers\BarangController::class, 'edit'])->name('barang.edit');
+Route::post('/barang/update/{id}', [Controllers\BarangController::class, 'update'])->name('barang.update');
 
 // Pengadaan
 Route::get('/pengadaan', [Controllers\PengadaanController::class, 'index'])->name('pengadaan');
