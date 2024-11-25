@@ -61,7 +61,7 @@ return new class extends Migration
         // Create pengadaan table
         DB::unprepared("
             CREATE TABLE pengadaan (
-                idpengadaan INT PRIMARY KEY,
+                idpengadaan INT PRIMARY KEY AUTO_INCREMENT,
                 timestamp TIMESTAMP,
                 user_iduser INT,
                 status CHAR(1),

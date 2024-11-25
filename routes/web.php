@@ -56,6 +56,12 @@ Route::post('/barang/update/{id}', [Controllers\BarangController::class, 'update
 
 // Pengadaan
 Route::get('/pengadaan', [Controllers\PengadaanController::class, 'index'])->name('pengadaan');
+Route::post('/pengadaan/store', [Controllers\PengadaanController::class,'store'])->name('pengadaan.store');
+Route::get('/pengadaan/delete/{id}', [Controllers\PengadaanController::class, 'destroy'])->name('pengadaan.destroy');
+Route::post('/pengadaan/complete', [Controllers\PengadaanController::class, 'complete'])->name('pengadaan.complete');
+
+// Penerimaan
+
 
 // Kartu Stok
 Route::get('/kartustok', [Controllers\KartuStokController::class, 'index'])->name('kartustok');

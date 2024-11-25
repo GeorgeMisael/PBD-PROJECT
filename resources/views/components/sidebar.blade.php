@@ -9,9 +9,64 @@
       </a>
     </li>
 
-    <li class="nav-heading">Pengguna</li>
+    {{-- <li class="nav-heading">Data Master</li> --}}
+
+    <li class="nav-item">
+      <a 
+        class="nav-link {{ Route::is('role', 'user', 'vendor', 'satuan') ? '' : 'collapsed' }}" 
+        href="#"
+        data-bs-target="#role" 
+        data-bs-toggle="collapse"
+      >
+      <i class="bi bi-person"></i>
+        <span>Data Master</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul 
+        id="role" 
+        class="nav-content {{ Route::is('role', 'user', 'vendor', 'satuan') ? '' : 'collapse' }}" 
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a 
+            href="{{ route('role') }}" 
+            class="{{ Route::is('role') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Role</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href="{{ route('user') }}" 
+            class="{{ Route::is('user') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Pengguna</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href="{{ route('vendor') }}" 
+            class="{{ Route::is('vendor') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Vendor</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href="{{ route('satuan') }}" 
+            class="{{ Route::is('satuan') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Satuan</span>
+          </a>
+        </li>
+      </ul>
+    </li>
     
-    <li class="nav-item ">
+    {{-- <li class="nav-item ">
       <a class="nav-link {{ Route::is('role') ? '' : 'collapsed' }}" href="{{ route('role') }}">
         <i class="bi bi-envelope"></i>
         <span>Role</span>
@@ -37,26 +92,68 @@
         <i class="bi bi-person"></i>
         <span>Satuan</span>
       </a>
-    </li>
+    </li> --}}
 
-    <li class="nav-item ">
-      <a class="nav-link {{ Route::is('barang') ? '' : 'collapsed' }}" href="{{ route('barang') }}">
-        <i class="bi bi-question-circle"></i>
+    <li class="nav-item">
+      <a 
+        class="nav-link {{ Route::is('barang', 'kartustok') ? '' : 'collapsed' }}" 
+        href="#"
+        data-bs-target="#barang" 
+        data-bs-toggle="collapse"
+      >
+        <i class="bi bi-journal-text"></i>
         <span>Barang</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
+      <ul 
+        id="barang" 
+        class="nav-content {{ Route::is('barang', 'kartustok') ? '' : 'collapse' }}" 
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a 
+            href="{{ route('barang') }}" 
+            class="{{ Route::is('barang') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Barang</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            href="{{ route('kartustok') }}" 
+            class="{{ Route::is('kartustok') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Kartu Stok</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    
+
+    <li class="nav-item">
+      <a class="nav-link {{ Route::is('pengadaan') ? '' : 'collapsed' }}" href="{{ route('pengadaan') }}" data-bs-target="#pengadaan" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>Pengadaan</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="pengadaan" class="nav-content {{ Route::is('pengadaan') ? '' : 'collapse' }} " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{{ route('pengadaan') }}" class="{{ Route::is('pengadaan') ? 'active' : '' }}">
+            <i class="bi bi-circle"></i><span>Pengadaan Baru</span>
+          </a>
+        </li>
+        <li>
+          <a href="" class="">
+            <i class="bi bi-circle"></i><span>Penerimaan</span>
+          </a>
+        </li>
+      </ul>
     </li>
 
     <li class="nav-item ">
       <a class="nav-link {{ Route::is('kartustok') ? '' : 'collapsed' }}" href="{{ route('kartustok') }}">
         <i class="bi bi-card-list"></i>
         <span>Kartu Stok</span>
-      </a>
-    </li>
-
-    <li class="nav-item ">
-      <a class="nav-link {{ Route::is('pengadaan') ? '' : 'collapsed' }}" href="{{ route('pengadaan') }}">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Pengadaan</span>
       </a>
     </li>
 
