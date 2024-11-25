@@ -8,61 +8,71 @@ use Illuminate\Database\QueryException;
 
 class SatuanController extends Controller
 {
-    public function index(){
-        $satuans = DB::table('satuan')->where('status', 1)->get();
+    public function index()
+    {
+        // Ambil data satuan dengan status = 1 (aktif)
+        $satuans = DB::select("SELECT * FROM satuan WHERE status = ?", [1]);
 
         return view('satuan.index', compact('satuans'));
     }
 
-    public function create(){
-
-        $satuans = DB::table('satuan')->get();
+    public function create()
+    {
+        // Ambil semua data satuan
+        $satuans = DB::select("SELECT * FROM satuan");
 
         return view('satuan.create', compact('satuans'));
     }
 
     public function store(Request $request)
     {
-        DB::table('satuan')->insert([
-            'nama_satuan' => $request->nama_satuan, 
-            'status' => $request->status,
-        ]);
-    
+        // Insert data baru ke tabel satuan
+        DB::insert("
+            INSERT INTO satuan (nama_satuan, status) 
+            VALUES (?, ?)", 
+            [$request->nama_satuan, $request->status]
+        );
+
         return redirect('/satuan');
     }
 
     public function inactive($id)
     {
         try {
-            // Ubah status vendor menjadi 0 (non-aktif)
-            DB::table('satuan')->where('idsatuan', $id)->update(['status' => 0]);
-            
-            // Redirect kembali ke halaman vendor dengan pesan sukses
-            return redirect('/satuan')->with('success', 'Vendor berhasil dinonaktifkan.');
+            // Ubah status satuan menjadi 0 (non-aktif)
+            DB::update("UPDATE satuan SET status = ? WHERE idsatuan = ?", [0, $id]);
+
+            return redirect('/satuan')->with('success', 'Satuan berhasil dinonaktifkan.');
         } catch (QueryException $e) {
-            // Redirect dengan pesan error jika terjadi kesalahan
-            return redirect('/satuan')->with('error', 'Terjadi kesalahan saat menonaktifkan vendor.');
+            return redirect('/satuan')->with('error', 'Terjadi kesalahan saat menonaktifkan satuan.');
         }
     }
 
     public function inactiveList()
     {
-        // Ambil data vendor dengan status = 0 (non-aktif)
-        $satuans = DB::table('satuan')->where('status', 0)->get();
-        
+        // Ambil data satuan dengan status = 0 (non-aktif)
+        $satuans = DB::select("SELECT * FROM satuan WHERE status = ?", [0]);
+
         return view('satuan.inactive', compact('satuans'));
     }
 
     public function edit($id)
     {
-        // Ambil satu data satuan berdasarkan iduser
-        $satuans = DB::table('satuan')->where('idsatuan', $id)->first();
-    
-        // Kirim data ke view
+        // Ambil satu data satuan berdasarkan idsatuan
+        $result = DB::select("SELECT * FROM satuan WHERE idsatuan = ?", [$id]);
+
+        // Jika data tidak ditemukan, redirect dengan pesan error
+        if (empty($result)) {
+            return redirect('/satuan')->with('error', 'Satuan tidak ditemukan.');
+        }
+
+        // Ambil elemen pertama dari hasil query
+        $satuans = (object)$result[0];
+
         return view('satuan.edit', compact('satuans'));
     }
 
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
         try {
             // Validasi input
@@ -70,20 +80,17 @@ class SatuanController extends Controller
                 'nama_satuan' => 'required|string|max:255',
                 'status' => 'required|integer|max:1',
             ]);
-    
-            // Update data vendor
-            DB::table('satuan')
-                ->where('idsatuan', $id)
-                ->update([
-                    'nama_satuan' => $request->nama_satuan,
-                    'status' => $request->status,
-                ]);
-    
-            // Redirect dengan pesan sukses
+
+            // Update data satuan
+            DB::update("
+                UPDATE satuan 
+                SET nama_satuan = ?, status = ? 
+                WHERE idsatuan = ?", 
+                [$request->nama_satuan, $request->status, $id]
+            );
+
             return redirect('/satuan/inactive')->with('success', 'Data satuan berhasil diperbarui.');
-    
         } catch (\Exception $e) {
-            // Redirect dengan pesan error
             return redirect('/satuan/inactive')->with('error', 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
         }
     }
@@ -91,15 +98,12 @@ class SatuanController extends Controller
     public function active($id)
     {
         try {
-            // Ubah status vendor menjadi 1 (aktif)
-            DB::table('satuan')->where('idsatuan', $id)->update(['status' => 1]);
-    
-            // Redirect ke halaman daftar satuan non-aktif dengan pesan sukses
+            // Ubah status satuan menjadi 1 (aktif)
+            DB::update("UPDATE satuan SET status = ? WHERE idsatuan = ?", [1, $id]);
+
             return redirect()->route('satuan.inactive.list')->with('success', 'Satuan berhasil diaktifkan.');
         } catch (QueryException $e) {
-            // Redirect dengan pesan error jika terjadi kesalahan
             return redirect()->route('satuan.inactive.list')->with('error', 'Terjadi kesalahan saat mengaktifkan satuan.');
         }
     }
-    
 }

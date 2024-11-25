@@ -9,81 +9,82 @@ use Illuminate\Database\QueryException;
 class UserController extends Controller
 {
     public function index(){
-
-        $users = DB::table('data_user')->get();
-
-        $roles = DB::table('role')->get();
-        
+        $users = DB::select("SELECT * FROM data_user");
+    
         return view('user.index', compact('users'));
     }
 
     public function create(){
-
-        $users = DB::table('data_user')->get();
-
-        $roles = DB::table('role')->get();
-
-        return view('user.create', compact('users', 'roles')); 
+        $users = DB::select("SELECT * FROM user");
+        $roles = DB::select("SELECT * FROM role");
+    
+        return view('user.create', compact('users', 'roles'));
     }
 
     public function store(Request $request)
     {
-
         $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:6',
-            'idrole'   => 'required|exists:role,idrole', // Pastikan idrole valid
+            'idrole'   => 'required|exists:role,idrole',
         ]);
-
-        DB::table('user')->insert([
-            'username' => $request->username,
-            'password' => $request->password,
-            'idrole'   => $request->idrole, // Tambahkan idrole di sini
-        ]);
+    
+        DB::statement("
+            INSERT INTO user (username, password, idrole) 
+            VALUES (?, ?, ?)
+        ", [$request->username, $request->password, $request->idrole]);
     
         return redirect('/user');
     }
 
     public function destroy($id)
     {
-        try{
-            // Mencoba menghapus user dengan idrole tertentu
-            DB::table('user')->where('iduser', $id)->delete();
+        try {
+            DB::statement("
+                DELETE FROM user 
+                WHERE iduser = ?
+            ", [$id]);
+    
             return redirect('/user')->with('success', 'User berhasil dihapus!');
-        } catch ( QueryException $e ){
-            // Redirect dengan pesan sukses jika penghapusan berhasil
+        } catch (QueryException $e) {
             return redirect('/user')->with('error', 'User Tidak berhasil dihapus!');
         }
     }
 
     public function edit($id)
     {
-        // Ambil satu data user berdasarkan iduser
-        $user = DB::table('data_user')->where('iduser', $id)->first();
+        // Ambil data user berdasarkan ID
+        $user = DB::select("SELECT * FROM user WHERE iduser = ?", [$id]);
     
-        // Ambil data role untuk dropdown
-        $roles = DB::table('role')->get();
+        // Jika user tidak ditemukan, redirect dengan pesan error
+        if (empty($user)) {
+            return redirect('/user')->with('error', 'User tidak ditemukan.');
+        }
     
-        // Kirim data ke view
+        // Ambil semua role
+        $roles = DB::select("SELECT * FROM role");
+    
+        // Konversi hasil query user dari object ke array untuk digunakan di Blade
+        $user = (array)$user[0];
+    
         return view('user.edit', compact('user', 'roles'));
     }
     
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'username' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
-            'idrole' => 'required|integer|exists:role,idrole', // Pastikan idrole valid
+            'password' => 'required|string|min:6',
+            'idrole'   => 'required|exists:role,idrole',
         ]);
     
-        // Update data pengguna
-        DB::table('user')
-            ->where('iduser', $id)
-            ->update([
-                'username' => $request->username,
-                'password' => $request->password,
-                'idrole' => $request->idrole,
-            ]);
+        DB::statement("
+            UPDATE user 
+            SET username = ?, password = ?, idrole = ? 
+            WHERE iduser = ?
+        ", [$request->username, $request->password, $request->idrole, $id]);
     
-        return redirect('/user');
+        return redirect('/user')->with('success', 'Data user berhasil diperbarui.');
     }
+    
 }

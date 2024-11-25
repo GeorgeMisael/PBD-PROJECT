@@ -9,45 +9,34 @@ use Illuminate\Database\QueryException;
 class BarangController extends Controller
 {
     public function index(){
-
-        $barangs = DB::table('data_barang')->where('status_barang', 1)->get();
-
+        $barangs = DB::select("SELECT * FROM data_barang WHERE status = 1");
         return view('barang.index', compact('barangs'));
     }
 
     public function create(){
-
-        $barangs = DB::table('barang')->get();
-        $satuans = DB::table('satuan')->where('status', 1)->get();
-
+        $barangs = DB::select("SELECT * FROM barang");
+        $satuans = DB::select("SELECT * FROM satuan WHERE status = 1");
         return view('barang.create', compact('barangs', 'satuans')); 
     }
 
     public function store(Request $request)
     {
-
-        // $request->validate([
-        //     'username' => 'required|string|max:255',
-        //     'password' => 'required|string|min:6',
-        //     'idrole'   => 'required|exists:role,idrole',
-        // ]);
-
-        DB::table('barang')->insert([
-            'jenis' => $request->jenis,
-            'nama' => $request->nama,
-            'idsatuan'=> $request->idsatuan,
-            'status'=> $request->status,
-            'harga'=> $request->harga,
+        DB::insert("INSERT INTO barang (jenis, nama, idsatuan, status, harga) VALUES (?, ?, ?, ?, ?)", [
+            $request->jenis,
+            $request->nama,
+            $request->idsatuan,
+            $request->status,
+            $request->harga,
         ]);
     
         return redirect('/barang');
-
     }
+    
 
     public function inactive($id)
     {
         try {
-            DB::table('barang')->where('idbarang', $id)->update(['status' => 0]);
+            DB::unprepared("UPDATE barang SET status = 0 WHERE idbarang = ?", [$id]);
             return redirect('/barang')->with('success', 'Barang berhasil dinonaktifkan.');
         } catch (QueryException $e) {
             return redirect('/barang')->with('error', 'Terjadi kesalahan saat menonaktifkan barang.');
@@ -56,50 +45,36 @@ class BarangController extends Controller
 
     public function inactiveList()
     {
-        $barangs = DB::table('data_barang')->where('status_barang', 0)->get();
-        
+        $barangs = DB::select("SELECT * FROM barang WHERE status = 0");
         return view('barang.inactive', compact('barangs'));
     }
 
     public function destroy($id)
     {
         try{
-            // Mencoba menghapus user dengan idrole tertentu
-            DB::table('barang')->where('idbarang', $id)->delete();
+            DB::unprepared("DELETE FROM barang WHERE idbarang = ?", [$id]);
             return redirect('/barang')->with('success', 'Barang berhasil dihapus!');
-        } catch ( QueryException $e ){
-            // Redirect dengan pesan sukses jika penghapusan berhasil
+        } catch (QueryException $e){
             return redirect('/barang')->with('error', 'Barang tidak berhasil dihapus!');
         }
     }
 
     public function edit($id)
     {
-        $barang = DB::table('barang')->where('idbarang', $id)->first();
-        $satuans = DB::table('satuan')->where('status', 1)->get();
-    
-        // Kirim data ke view
+        $barang = DB::selectOne("SELECT * FROM barang WHERE idbarang = ?", [$id]);
+        $satuans = DB::select("SELECT * FROM satuan WHERE status = 1");
         return view('barang.edit', compact('barang', 'satuans'));
     }
 
     public function update(Request $request, $id) {
-
-        // $request->validate([
-        //     'username' => 'required|string|max:255',
-        //     'password' => 'required|string|max:255',
-        //     'idrole' => 'required|integer|exists:role,idrole', // Pastikan idrole valid
-        // ]);
-    
-        // Update data pengguna
-        DB::table('barang')
-            ->where('idbarang', $id)
-            ->update([
-                'jenis' => $request->jenis,
-                'nama' => $request->nama,
-                'idsatuan'=> $request->idsatuan,
-                'status'=> $request->status,
-                'harga'=> $request->harga,
-            ]);
+        DB::unprepared("UPDATE barang SET jenis = ?, nama = ?, idsatuan = ?, status = ?, harga = ? WHERE idbarang = ?", [
+            $request->jenis,
+            $request->nama,
+            $request->idsatuan,
+            $request->status,
+            $request->harga,
+            $id
+        ]);
     
         return redirect('/barang');
     }
@@ -107,14 +82,11 @@ class BarangController extends Controller
     public function active($id)
     {
         try {
-            // Ubah status vendor menjadi 1 (aktif)
-            DB::table('barang')->where('idbarang', $id)->update(['status' => 1]);
-    
-            // Redirect ke halaman daftar vendor non-aktif dengan pesan sukses
+            DB::unprepared("UPDATE barang SET status = 1 WHERE idbarang = ?", [$id]);
             return redirect()->route('barang.inactivelist')->with('success', 'Barang berhasil diaktifkan.');
         } catch (QueryException $e) {
-            // Redirect dengan pesan error jika terjadi kesalahan
             return redirect()->route('barang.inactivelist')->with('error', 'Terjadi kesalahan saat mengaktifkan barang.');
         }
     }
 }
+

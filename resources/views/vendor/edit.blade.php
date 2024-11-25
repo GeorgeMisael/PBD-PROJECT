@@ -1,13 +1,13 @@
-<x-app-layout title="Edit User">
+<x-app-layout title="Edit Vendor">
   <x-slot:breadcrumb>
-    Edit
+    Edit Vendor
   </x-slot:breadcrumb>
   <x-slot:heading>
-    Edit Data User
+    Edit Data Vendor
   </x-slot:heading>
 
   <div class="card-body">
-    <h5 class="card-title">Masukkan Data Pengguna</h5>
+    <h5 class="card-title">Masukkan Data Vendor</h5>
 
     @if(session('error'))
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
