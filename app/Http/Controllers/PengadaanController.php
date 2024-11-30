@@ -13,6 +13,10 @@ class PengadaanController extends Controller
         $barangs = DB::select("SELECT * FROM barang WHERE status = 1");
         $satuans = DB::select("SELECT * FROM satuan WHERE status = 1");
         $vendors = DB::select("SELECT * FROM vendor");
+        $pengadaans = DB::select("SELECT * FROM data_pengadaan");
+        $pengadaan = DB::select("SELECT * FROM pengadaan LIMIT 1");
+        $pengadaan = $pengadaan[0] ?? null;
+        $detailPengadaans = DB::select("SELECT * FROM detail_pengadaan");
 
         // Ambil data pengadaan yang sudah ada dalam session
         $dataPengadaan = session('dataPengadaan', []);
@@ -21,7 +25,10 @@ class PengadaanController extends Controller
             'barangs' => $barangs,
             'satuans' => $satuans,
             'vendors' => $vendors,
-            'dataPengadaan' => $dataPengadaan,  // Kirim data pengadaan yang disimpan dalam session
+            'dataPengadaan' => $dataPengadaan,
+            'pengadaans' => $pengadaans,
+            'detailPengadaans' => $detailPengadaans,
+            'pengadaan' => $pengadaan,
         ]);
     }
     
@@ -31,16 +38,10 @@ class PengadaanController extends Controller
         $request->validate([
             'idbarang' => 'required|exists:barang,idbarang',
             'jumlah' => 'required|numeric|min:1',
-            'idsatuan' => 'required|exists:satuan,idsatuan',  // Validasi idsatuan
         ]);
     
         // Ambil data barang dan satuan berdasarkan input pengguna
         $barang = DB::select("SELECT harga, nama FROM barang WHERE idbarang = ?", [$request->idbarang]);
-        $satuan = DB::select("SELECT nama_satuan FROM satuan WHERE idsatuan = ?", [$request->idsatuan]);
-    
-        if (empty($barang) || empty($satuan)) {
-            return redirect()->route('pengadaan')->with('error', 'Barang atau satuan tidak ditemukan!');
-        }
     
         // Hitung subtotal
         $subtotal = $barang[0]->harga * $request->jumlah;
@@ -55,7 +56,6 @@ class PengadaanController extends Controller
             'harga' => $barang[0]->harga,
             'jumlah' => $request->jumlah,
             'subtotal' => $subtotal,
-            'satuan' => $satuan[0]->nama_satuan,
         ];
     
         // Simpan data pengadaan dalam session
@@ -63,28 +63,6 @@ class PengadaanController extends Controller
     
         // Redirect kembali ke halaman pengadaan
         return redirect()->route('pengadaan')->with('success', 'Data pengadaan berhasil ditambahkan!');
-    }
-
-    public function destroy($id)
-    {
-        // Ambil data pengadaan dari session
-        $dataPengadaan = session('dataPengadaan', []);
-
-        // Periksa apakah indeks ada di array
-        if (isset($dataPengadaan[$id])) {
-            // Hapus item dari array
-            unset($dataPengadaan[$id]);
-
-            // Reset indeks array untuk mencegah masalah dengan indeks tidak berurutan
-            $dataPengadaan = array_values($dataPengadaan);
-
-            // Simpan kembali data pengadaan ke session
-            session(['dataPengadaan' => $dataPengadaan]);
-
-            return redirect()->route('pengadaan')->with('success', 'Data pengadaan berhasil dihapus!');
-        }
-
-        return redirect()->route('pengadaan')->with('error', 'Data pengadaan tidak ditemukan!');
     }
 
     public function complete(Request $request)
@@ -109,7 +87,6 @@ class PengadaanController extends Controller
             $total_nilai,
         ]);
 
-
         // Ambil idpengadaan terakhir yang baru saja dimasukkan
         $idpengadaan = DB::getPdo()->lastInsertId();
     
@@ -128,5 +105,27 @@ class PengadaanController extends Controller
         session()->forget('dataPengadaan');
     
         return redirect()->route('pengadaan')->with('success', 'Data pengadaan berhasil disimpan!');
+    }
+
+    public function destroy($id)
+    {
+        // Ambil data pengadaan dari session
+        $dataPengadaan = session('dataPengadaan', []);
+
+        // Periksa apakah indeks ada di array
+        if (isset($dataPengadaan[$id])) {
+            // Hapus item dari array
+            unset($dataPengadaan[$id]);
+
+            // Reset indeks array untuk mencegah masalah dengan indeks tidak berurutan
+            $dataPengadaan = array_values($dataPengadaan);
+
+            // Simpan kembali data pengadaan ke session
+            session(['dataPengadaan' => $dataPengadaan]);
+
+            return redirect()->route('pengadaan')->with('success', 'Data pengadaan berhasil dihapus!');
+        }
+
+        return redirect()->route('pengadaan')->with('error', 'Data pengadaan tidak ditemukan!');
     }
 }

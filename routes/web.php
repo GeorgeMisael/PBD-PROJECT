@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers;
+use App\Http\Controllers\PenerimaanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -60,8 +61,9 @@ Route::post('/pengadaan/store', [Controllers\PengadaanController::class,'store']
 Route::get('/pengadaan/delete/{id}', [Controllers\PengadaanController::class, 'destroy'])->name('pengadaan.destroy');
 Route::post('/pengadaan/complete', [Controllers\PengadaanController::class, 'complete'])->name('pengadaan.complete');
 
-// Penerimaan
 
+// penerimaan
+Route::post('/penerimaan', [PenerimaanController::class, 'store'])->name('penerimaan');
 
 // Kartu Stok
 Route::get('/kartustok', [Controllers\KartuStokController::class, 'index'])->name('kartustok');

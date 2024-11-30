@@ -131,31 +131,44 @@
       </ul>
     </li>
     
-
     <li class="nav-item">
-      <a class="nav-link {{ Route::is('pengadaan') ? '' : 'collapsed' }}" href="{{ route('pengadaan') }}" data-bs-target="#pengadaan" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Pengadaan</span><i class="bi bi-chevron-down ms-auto"></i>
+      <a 
+        class="nav-link {{ Route::is('pengadaan', 'penerimaan') ? '' : 'collapsed' }}" 
+        href="#"
+        data-bs-target="#pengadaan" 
+        data-bs-toggle="collapse"
+      >
+        <i class="bi bi-journal-text"></i>
+        <span>Pengadaan</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="pengadaan" class="nav-content {{ Route::is('pengadaan') ? '' : 'collapse' }} " data-bs-parent="#sidebar-nav">
+      <ul 
+        id="pengadaan" 
+        class="nav-content {{ Route::is('pengadaan', 'penerimaan') ? '' : 'collapse' }}" 
+        data-bs-parent="#sidebar-nav"
+      >
         <li>
-          <a href="{{ route('pengadaan') }}" class="{{ Route::is('pengadaan') ? 'active' : '' }}">
-            <i class="bi bi-circle"></i><span>Pengadaan Baru</span>
+          <a 
+            href="{{ route('pengadaan') }}" 
+            class="{{ Route::is('pengadaan') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Pengadaan</span>
           </a>
         </li>
         <li>
-          <a href="" class="">
-            <i class="bi bi-circle"></i><span>Penerimaan</span>
+          <a 
+            href="{{ route('penerimaan') }}" 
+            class="{{ Route::is('penerimaan') ? 'active' : '' }}"
+          >
+            <i class="bi bi-circle"></i>
+            <span>Penerimaan</span>
           </a>
         </li>
       </ul>
     </li>
+    
 
-    <li class="nav-item ">
-      <a class="nav-link {{ Route::is('kartustok') ? '' : 'collapsed' }}" href="{{ route('kartustok') }}">
-        <i class="bi bi-card-list"></i>
-        <span>Kartu Stok</span>
-      </a>
-    </li>
 
     <li class="nav-item ">
       <a class="nav-link collapsed" href="pages-error-404.html">

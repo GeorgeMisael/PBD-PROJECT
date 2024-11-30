@@ -96,6 +96,14 @@
     document.addEventListener('DOMContentLoaded', function () {
       const dataTable = new simpleDatatables.DataTable("#myTable");
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const dataTable = new simpleDatatables.DataTable("#myTable2");
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const dataTable = new simpleDatatables.DataTable("#detailPengadaan");
+    });
   </script>
 
 </body>
