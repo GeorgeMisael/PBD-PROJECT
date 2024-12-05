@@ -9,29 +9,43 @@ use Illuminate\Database\QueryException;
 class BarangController extends Controller
 {
     public function index(){
-        $barangs = DB::select("SELECT * FROM data_barang WHERE status = 1");
+        $barangs = DB::select("
+        SELECT
+            barang.idbarang,
+            barang.nama,
+            barang.jenis,
+            barang.idsatuan,
+            barang.status,
+            barang.harga,
+            GetLatestStock(barang.idbarang) AS stock -- Panggil fungsi GetLatestStock
+        FROM
+            barang
+        ORDER BY
+            barang.idbarang
+    ");
         return view('barang.index', compact('barangs'));
     }
 
     public function create(){
         $barangs = DB::select("SELECT * FROM barang");
         $satuans = DB::select("SELECT * FROM satuan WHERE status = 1");
-        return view('barang.create', compact('barangs', 'satuans')); 
+        return view('barang.create', compact('barangs', 'satuans'));
     }
 
     public function store(Request $request)
     {
-        DB::insert("INSERT INTO barang (jenis, nama, idsatuan, status, harga) VALUES (?, ?, ?, ?, ?)", [
+        // Panggil Stored Procedure
+        DB::statement("CALL InsertBarang(?, ?, ?, ?, ?)", [
             $request->jenis,
             $request->nama,
             $request->idsatuan,
             $request->status,
             $request->harga,
         ]);
-    
+
         return redirect('/barang');
     }
-    
+
 
     public function inactive($id)
     {
@@ -49,14 +63,13 @@ class BarangController extends Controller
         return view('barang.inactive', compact('barangs'));
     }
 
-    public function destroy($id)
+    public function destroy($idbarang)
     {
-        try{
-            DB::unprepared("DELETE FROM barang WHERE idbarang = ?", [$id]);
-            return redirect('/barang')->with('success', 'Barang berhasil dihapus!');
-        } catch (QueryException $e){
-            return redirect('/barang')->with('error', 'Barang tidak berhasil dihapus!');
-        }
+        // Menghapus satuan berdasarkan ID menggunakan raw query
+        DB::statement('DELETE FROM barang WHERE idbarang = ?', [$idbarang]);
+
+        // Redirect ke halaman daftar satuan dengan pesan sukses
+        return redirect('/barang')->with('success', 'Barang berhasil dihapus.');
     }
 
     public function edit($id)
@@ -75,7 +88,7 @@ class BarangController extends Controller
             $request->harga,
             $id
         ]);
-    
+
         return redirect('/barang');
     }
 

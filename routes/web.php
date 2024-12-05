@@ -54,6 +54,7 @@ Route::get('/barang/inactive', [Controllers\BarangController::class,'inactivelis
 Route::get('/barang/active/{id}', [Controllers\BarangController::class, 'active'])->name('barang.active');
 Route::get('/barang/inactive/edit/{id}', [Controllers\BarangController::class, 'edit'])->name('barang.edit');
 Route::post('/barang/update/{id}', [Controllers\BarangController::class, 'update'])->name('barang.update');
+Route::delete('/barang/{idbarang}', [Controllers\BarangController::class, 'destroy'])->name('barang.destroy'); // Menghapus vendor
 
 // Pengadaan
 Route::get('/pengadaan', [Controllers\PengadaanController::class, 'index'])->name('pengadaan');
@@ -64,6 +65,8 @@ Route::post('/pengadaan/complete', [Controllers\PengadaanController::class, 'com
 
 // penerimaan
 Route::post('/penerimaan', [PenerimaanController::class, 'store'])->name('penerimaan');
+Route::get('/penerimaan/create/{idpengadaan}', [PenerimaanController::class, 'create'])->name('penerimaan.create');
+Route::post('/penerimaan/store', [PenerimaanController::class, 'store'])->name('penerimaan.store');
 
 // Kartu Stok
 Route::get('/kartustok', [Controllers\KartuStokController::class, 'index'])->name('kartustok');

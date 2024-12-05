@@ -2,7 +2,7 @@
   <x-slot:breadcrumb>
     Pengadaan
   </x-slot:breadcrumb>
-  
+
   <x-slot:heading>
     Data Pengadaan
   </x-slot:heading>
@@ -10,21 +10,21 @@
   <div class="card-body">
     <div class="row">
       <h5 class="card-title">Pengadaan Baru</h5>
-      
+
       @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
           {{ session('error') }}
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       @endif
-  
+
       @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       @endif
-  
+
       <form action="{{ route('pengadaan.store') }}" method="post">
         @csrf
         <div class="row mb-3">
@@ -40,20 +40,20 @@
             </select>
           </div>
         </div>
-      
+
         <div class="row mb-3">
           <label for="jumlah" class="col-sm-2 col-form-label">Jumlah</label>
           <div class="col-sm-10">
             <input type="number" name="jumlah" id="jumlah" class="form-control" min="1">
           </div>
         </div>
-      
+
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Tambah</button>
           <button type="reset" class="btn btn-secondary">Reset</button>
         </div>
       </form>
-      
+
     </div>
 
     <!-- Tampilkan Data Pengadaan -->
@@ -118,7 +118,8 @@
               <td>{{ $pengadaan->ppn }}</td>
               <td>{{ $pengadaan->total_nilai }}</td>
               <td>
-                <a href="" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#detailPengadaanModal">Proses</a>
+                <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#detailPengadaanModal">Detail</a>
+                <a href="{{ route('penerimaan.create', $pengadaan->idpengadaan) }}" class="btn btn-primary btn-sm">Penerimaan</a>
               </td>
             </tr>
           @endforeach
@@ -166,10 +167,10 @@
             <h5 class="modal-title">Penerimaan Barang</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="{{ route('penerimaan') }}" method="POST">
+          <form action="" method="POST">
             @csrf
             <input type="hidden" name="idpengadaan" value="{{ $pengadaan->idpengadaan ?? '' }}">
-        
+
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -187,7 +188,7 @@
                         <td>{{ $detailPengadaan->idbarang }}</td>
                         <td>{{ $detailPengadaan->harga_satuan }}</td>
                         <td>
-                            <input type="number" name="barang[{{ $index }}][jumlah]" value="{{ $detailPengadaan->jumlah }}" min="1" class="form-control">
+                            <input type="number" name="barang[{{ $index }}][jumlah]" value="{{ $detailPengadaan->jumlah }}" min="1" class="form-control" readonly>
                             <input type="hidden" name="barang[{{ $index }}][idbarang]" value="{{ $detailPengadaan->idbarang }}">
                             <input type="hidden" name="barang[{{ $index }}][harga_satuan]" value="{{ $detailPengadaan->harga_satuan }}">
                         </td>
@@ -196,13 +197,8 @@
                     @endforeach
                 </tbody>
               </table>
-        
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
         </form>
-        
+
         </div>
       </div>
     </div>
